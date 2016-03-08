@@ -1,0 +1,32 @@
+#==============================================================================
+# vim: softtabstop=2 shiftwidth=2 expandtab fenc=utf-8 cc=81 tw=80
+#==============================================================================
+#
+# DESCRIPTION: My centos recipe
+#
+# AUTHOR: Michael Mercier
+#
+#==============================================================================
+
+---
+extend: default/chroot/centos7.yaml
+checkpoint: btrfs.yaml
+
+global:
+    btrfs_volume: /
+    appliance_formats: qcow2
+    default_keyboard_layout: fr
+    root_password: rootroot
+    default_timezone: Europe/Paris
+
+    # You can see the base template `default/chroot/centos7.yaml` to know the
+    # variables that you can override
+
+bootstrap:
+  - "@base"
+
+setup:
+  - "@base"
+
+export:
+  - "@base"

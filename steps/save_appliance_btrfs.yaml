@@ -1,0 +1,19 @@
+# Export to my Machine local folder to run as container using btrfs
+# *Warning*: Assume that the rootfs folder is a btrfs subvolume
+
+- machine_path: ~/Machines/$$kameleon_recipe_name/
+
+- export_rootfs_for_runc:
+  - exec_local: mkdir -p $$machine_path
+  - exec_local: |
+      if [[ -d $$machine_path/rootfs ]]; then
+        btrfs subvolume delete $$machine_path/rootfs
+      fi
+      btrfs subvolume snapshot $$rootfs $$machine_path/rootfs
+
+- export_rootfs_for_systemd-nspawn:
+  - exec_local: |
+      if [[ -d /var/lib/machines/$$kameleon_recipe_name ]]; then
+        btrfs subvolume delete /var/lib/machines/$$kameleon_recipe_name
+      fi
+      btrfs subvolume snapshot /var/lib/machines/$$kameleon_recipe_name
